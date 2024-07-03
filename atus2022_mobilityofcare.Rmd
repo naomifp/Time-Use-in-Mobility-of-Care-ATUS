@@ -1,0 +1,442 @@
+---
+title: "Time Use for Care"
+author: "Naomi Panjaitan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+# Dataset
+
+```{r}
+atussum.22 <- read.delim('ATUS/atussum_2022.dat', sep=",")
+atussum.22$TUCASEID <- as.character(atussum.22$TUCASEID)
+atus.2022 <- atussum.22
+```
+
+## Categorization
+
+```{r}
+t01 <- grep("^t01", names(atus.2022), value=TRUE)
+t02 <- grep("^t02", names(atus.2022), value=TRUE)
+t03 <- grep("^t03", names(atus.2022), value=TRUE)
+t04 <- grep("^t04", names(atus.2022), value=TRUE)
+t05 <- grep("^t05", names(atus.2022), value=TRUE)
+t06 <- grep("^t06", names(atus.2022), value=TRUE)
+t07 <- grep("^t07", names(atus.2022), value=TRUE)
+t08 <- grep("^t08", names(atus.2022), value=TRUE)
+t09 <- grep("^t09", names(atus.2022), value=TRUE)
+t10 <- grep("^t10", names(atus.2022), value=TRUE)
+t11 <- grep("^t11", names(atus.2022), value=TRUE)
+t12 <- grep("^t12", names(atus.2022), value=TRUE)
+t13 <- grep("^t13", names(atus.2022), value=TRUE)
+t14 <- grep("^t14", names(atus.2022), value=TRUE)
+t15 <- grep("^t15", names(atus.2022), value=TRUE)
+t16 <- grep("^t16", names(atus.2022), value=TRUE)
+t50 <- grep("^t50", names(atus.2022), value=TRUE)
+
+t1801 <- grep("^t1801", names(atus.2022), value=TRUE)
+t1802 <- grep("^t1802", names(atus.2022), value=TRUE)
+t1805 <- grep("^t1805", names(atus.2022), value=TRUE)
+t1806 <- grep("^t1806", names(atus.2022), value=TRUE)
+t1807 <- grep("^t1807", names(atus.2022), value=TRUE)
+t1808 <- grep("^t1808", names(atus.2022), value=TRUE)
+t1809 <- grep("^t1809", names(atus.2022), value=TRUE)
+t1810 <- grep("^t1810", names(atus.2022), value=TRUE)
+t1811 <- grep("^t1811", names(atus.2022), value=TRUE)
+t1812 <- grep("^t1812", names(atus.2022), value=TRUE)
+t1813 <- grep("^t1813", names(atus.2022), value=TRUE)
+t1814 <- grep("^t1814", names(atus.2022), value=TRUE)
+t1815 <- grep("^t1815", names(atus.2022), value=TRUE)
+t1816 <- grep("^t1816", names(atus.2022), value=TRUE)
+t1818 <- grep("^t1818", names(atus.2022), value=TRUE)
+t1899 <- grep("^t1899", names(atus.2022), value=TRUE)
+
+atus.2022 <- atus.2022 %>% 
+  mutate(act_personal  = rowSums(atus.2022[,t01]) ,
+         act_household = rowSums(atus.2022[,t02]) ,
+         act_carehhm   = rowSums(atus.2022[,t03]) ,
+         act_carenhm   = rowSums(atus.2022[,t04]) ,
+         act_work      = rowSums(atus.2022[,t05]) ,
+         act_school    = rowSums(atus.2022[,t06]) ,
+         act_groceries = rowSums(atus.2022[,t07]) ,
+         act_ppservice = rowSums(atus.2022[,t08]) ,
+         act_hhservice = rowSums(atus.2022[,t09]) ,
+         act_admin     = rowSums(atus.2022[,t10]) ,
+         act_eating    = rowSums(atus.2022[,t11]) ,
+         act_leisure   = rowSums(atus.2022[,t12]) ,
+         act_sport     = rowSums(atus.2022[,t13]) ,
+         act_religious = rowSums(atus.2022[,t14]) ,
+         act_volunteer = rowSums(atus.2022[,t15]) ,
+         act_other     = rowSums(atus.2022[,t50]) + rowSums(atus.2022[,t16]) ,
+         trv_personal  = (atus.2022[,t1801]) ,
+         trv_household = rowSums(atus.2022[,t1802]) ,
+         trv_care_child= (t180301 + t180302 + t180303 + t180401 + t180402 + t180403) ,
+         trv_care_adult= (t180304 + t180305 + t180404 + t180405) ,
+         trv_work      = rowSums(atus.2022[,t1805]) ,
+         trv_school    = rowSums(atus.2022[,t1806]) ,
+         trv_groceries = rowSums(atus.2022[,t1807]) ,
+         trv_ppservice = rowSums(atus.2022[,t1808]) ,
+         trv_hhservice = rowSums(atus.2022[,t1809]) ,
+         trv_admin     = rowSums(atus.2022[,t1810]) ,
+         trv_eating    = (atus.2022[,t1811]) ,
+         trv_leisure   = rowSums(atus.2022[,t1812]) ,
+         trv_sport     = rowSums(atus.2022[,t1813]) ,
+         trv_religious = (atus.2022[,t1814]) ,
+         trv_volunteer = rowSums(atus.2022[,t1815]) ,
+         trv_other     = rowSums(atus.2022[,t1818]) + (atus.2022[,t1816]) + (atus.2022[,t1899]) 
+         )
+
+rm(t01)
+rm(t02)
+rm(t03)
+rm(t04)
+rm(t05)
+rm(t06)
+rm(t07)
+rm(t08)
+rm(t09)
+rm(t10)
+rm(t11)
+rm(t12)
+rm(t13)
+rm(t14)
+rm(t15)
+rm(t16)
+rm(t50)
+rm(t1801)
+rm(t1802)
+rm(t1805)
+rm(t1806)
+rm(t1807)
+rm(t1808)
+rm(t1809)
+rm(t1810)
+rm(t1811)
+rm(t1812)
+rm(t1813)
+rm(t1814)
+rm(t1815)
+rm(t1816)
+rm(t1818)
+rm(t1899)
+
+atus.2022 <- atus.2022 %>% 
+  mutate(act_personal  = act_personal  + t160101 + t160102,
+         act_groceries = act_groceries - t070103 - t070104 + t160104,
+         act_ppservice = act_ppservice + t160105 + t160107,
+         act_hhservice = act_hhservice + t160106,
+         act_admin     = act_admin  + t160108,
+         act_school    = act_school + t160103,
+         act_buyfood   = t070103,
+         act_shopping  = t070104,
+         act_other     = act_other - t160101 - t160102 - t160103 - t160104 - t160105 - t160106 - t160107 - t160108 ,
+         trv_groceries = trv_groceries - t180703 - t180704 ,
+         trv_buyfood   = t180703 , 
+         trv_shopping  = t180704 ,
+         trv_leisure   = trv_leisure - t181201 ,
+         trv_social    = t181201 
+         )
+```
+
+## Summarizing time use
+
+```{r}
+# summarizing time use for activities and travels
+act <- grep("^act_", names(atus.2022), value=TRUE)
+trv <- grep("^trv_", names(atus.2022), value=TRUE)
+
+atus.2022 <- atus.2022 %>%
+  mutate(act = rowSums(atus.2022[,act]),
+         trv = rowSums(atus.2022[,trv])) %>% 
+  mutate(budget = act + trv)
+
+rm(act)
+rm(trv)
+```
+
+
+## "Who with" information
+
+```{r}
+atusrost.22 <- read.delim('ATUS/atusrost_2022.dat', sep=",")
+atusrost.22$TUCASEID <- as.character(atusrost.22$TUCASEID)
+
+atuswho.22 <- read.delim('ATUS/atuswho_2022.dat', sep=",")
+atuswho.22$TUCASEID <- as.character(atuswho.22$TUCASEID)
+
+atusact.22 <- read.delim('ATUS/atusact_2022.dat', sep=",")
+atusact.22$TUCASEID <- as.character(atusact.22$TUCASEID)
+
+atuscps.22 <- read.delim('ATUS/atuscps_2022.dat', sep=",")
+atuscps.22$TUCASEID <- as.character(atuscps.22$TUCASEID)
+```
+
+```{r}
+hhinc <- atuscps.22 %>% select("TUCASEID", "HEFAMINC") %>% unique()
+
+hhinc <- hhinc %>% 
+  mutate(inc = case_when(HEFAMINC<8 ~ "Less than $25,000",
+                         HEFAMINC>7 & HEFAMINC<12 ~ "$25,000 - $49,999",
+                         HEFAMINC>11 & HEFAMINC<14 ~ "$49,000 - $74,999",
+                         HEFAMINC==14 ~ "$75,000 - $99,999",
+                         HEFAMINC==15 ~ "$100,000 - $149,999",
+                         HEFAMINC==16 ~ "Over $150,000")) %>% 
+  rename(income=HEFAMINC) %>% 
+  rename(id=TUCASEID)
+
+hhinc$inc = factor(hhinc$inc, levels = c("Less than $25,000",
+                                       "$25,000 - $49,999",
+                                       "$49,000 - $74,999",
+                                       "$75,000 - $99,999",
+                                       "$100,000 - $149,999",
+                                       "Over $150,000"))
+
+hhinc %>% count(inc)
+```
+
+
+
+```{r}
+atusppl.22 <- atusact.22  %>% 
+  filter(TUTIER1CODE==18) %>% 
+  select(c("TUCASEID","TUACTIVITY_N","TUTIER2CODE","TUTIER3CODE","TRTIER2"))
+
+atusppl.22 <- atuswho.22 %>% 
+  filter(TRWHONA==0) %>% 
+  select(c("TUCASEID","TUACTIVITY_N","TULINENO","TUWHO_CODE")) %>% 
+  inner_join(atusppl.22, atuswho.22, by=c("TUCASEID","TUACTIVITY_N"))
+
+atusppl.22 <- atusrost.22 %>% 
+  select(c("TUCASEID","TULINENO","TEAGE")) %>% 
+  inner_join(atusppl.22, atusrost.22, by=c("TUCASEID","TULINENO"))
+
+```
+
+```{r}
+atusppl.22 <- atusppl.22 %>% 
+  mutate(trv.catg = paste0(ifelse(TUTIER2CODE<10, paste0(0,TUTIER2CODE), TUTIER2CODE),
+                           ifelse(TUTIER3CODE<10, paste0(0,TUTIER3CODE), TUTIER3CODE))) %>% 
+  mutate(comp.catg = case_when(TUWHO_CODE %in% c(18,19) ~ "alone",
+                               TUWHO_CODE==22 ~ "hh.child.own",
+                               TUWHO_CODE %in% c(23,27) ~ "hh.child.other",
+                               TUWHO_CODE %in% c(20,21) & TEAGE<65 ~ "hh.adult.spouse",
+                               TUWHO_CODE %in% c(20,21) & TEAGE>64 ~ "hh.elder.spouse",
+                               TUWHO_CODE %in% c(24,25,26,28,29,30) & TEAGE<65 ~ "hh.adult.other",
+                               TUWHO_CODE %in% c(24,25,26,28,29,30) & TEAGE>64 ~ "hh.elder.other",
+                               TUWHO_CODE==40 ~ "nh.child.own",
+                               TUWHO_CODE %in% c(52,57) ~ "nh.child.other",
+                               TUWHO_CODE %in% c(51,52,53,54,56,58,60,61,62) & TEAGE<65 ~ "nh.adult",
+                               TUWHO_CODE %in% c(51,52,53,54,56,58,60,61,62) & TEAGE>64 ~ "nh.elder",
+                               TRUE ~ NA)) %>% 
+  select(c("TUCASEID","trv.catg","comp.catg")) %>% 
+  filter(comp.catg != "alone")
+  
+atusppl.22 %>% 
+  group_by(trv.catg, comp.catg) %>% 
+  tally(sort = T) %>%
+  ungroup() %>%
+  arrange(desc(n))
+
+atusppl.22 <- atusppl.22 %>% 
+  filter(trv.catg != "9999",
+         comp.catg != "hh.adult.other", 
+         #comp.catg != "hh.elder.other",
+         #comp.catg != "nh.child.own", 
+         #comp.catg != "nh.child.other",
+         comp.catg != "nh.adult"
+         #comp.catg != "nh.elder" 
+         )
+
+```
+
+```{r}
+atusppl.22 <- atusppl.22 %>% 
+  mutate(comp = paste(trv.catg, comp.catg, sep=".")) %>% 
+  add_count(comp, TUCASEID) %>% 
+  distinct(TUCASEID, comp, n) %>% 
+  mutate(comp = case_when(str_detect(comp, "0301.hh.child.own|0302.hh.child.own|0303.hh.child.own") ~ "trv.care_w.hhchild",
+                              str_detect(comp, "0401.nh.child|0402.nh.child|0403.nh.child") ~ "trv.care_w.nhchild",
+                              str_detect(comp, "0301.hh.adult.spouse|0302.hh.adult.spouse|0303.hh.adult.spouse") ~ "trv.care_w.spouse",
+                              str_detect(comp, "0304.hh.elder|0305.hh.elder|0404.hh.elder|0405.hh.elder") ~ "trv.care_w.elder",
+                              comp == "0701.hh.child.own" ~ "trv.groceries_w.hhchild",
+                              comp == "0703.hh.child.own" ~ "trv.food_w.hhchild",
+                              comp == "0704.hh.child.own" ~ "trv.shop_w.hhchild",
+                              comp == "1101.hh.child.own" ~ "trv.eating_w.hhchild",
+                              comp == "1201.hh.child.own" ~ "trv.social_w.hhchild",
+                              comp == "1401.hh.child.own" ~ "trv.religious_w.hhchild",
+                              comp == "0701.hh.adult.spouse" ~ "trv.groceries_w.spouse",
+                              comp == "0703.hh.adult.spouse" ~ "trv.food_w.spouse",
+                              comp == "0704.hh.adult.spouse" ~ "trv.shop_w.spouse",
+                              comp == "1101.hh.adult.spouse" ~ "trv.eatout_w.spouse",
+                              comp == "1201.hh.adult.spouse" ~ "trv.social_w.spouse",
+                              comp == "1401.hh.adult.spouse" ~ "trv.religious_w.spouse",
+                              comp == "0701.hh.elder.spouse" ~ "trv.groceries_w.spouse",
+                              comp == "0703.hh.elder.spouse" ~ "trv.food_w.spouse",
+                              comp == "0704.hh.elder.spouse" ~ "trv.shop_w.spouse",
+                              comp == "1101.hh.elder.spouse" ~ "trv.eating_w.spouse",
+                              comp == "1201.hh.elder.spouse" ~ "trv.social_w.spouse",
+                              comp == "1401.hh.elder.spouse" ~ "trv.religious_w.spouse",
+                              TRUE ~ NA)) %>% 
+  drop_na() %>% 
+  mutate(n=1) %>% 
+  rename(id=TUCASEID) %>%  
+  pivot_wider(id_cols = id, names_from = comp, values_from = n, values_fn= min, values_fill = 0) 
+
+```
+
+```{r}
+rm(atusact.22)
+rm(atusrost.22)
+rm(atuswho.22)
+```
+
+
+# Database for MDCEV
+
+## Variables modification
+
+```{r}
+timeuse.22 <- atus.2022 %>%
+  mutate(age        = TEAGE,
+         female     = case_when(TESEX == 2 ~ 1,
+                                TRUE ~ 0),
+         eldertime  = case_when(TRTEC < 0 ~ 0,
+                                TRUE ~ TRTEC),
+         childtime  = case_when(TRTHH < 0 ~ 0,
+                                TRUE ~ TRTHH),
+         children   = TRCHILDNUM,
+         youngest   = case_when(TRYHHCHILD < 0 ~ 0,
+                                TRUE ~ TRYHHCHILD),
+         spouse     = case_when(TRSPPRES == 1 ~ 1,
+                            TRSPPRES == 2 ~ 1,
+                                TRUE ~ 0),
+         spousework = case_when(TESPEMPNOT == 1 ~ 1,
+                                TRUE ~ 0),
+         work       = case_when(TELFS == 1 ~ 1,
+                                TELFS == 2 ~ 1,
+                                TRUE ~ 0),
+         multijob   = case_when(TEMJOT == 1 ~ 1,
+                                TELFS == 0 ~ 0,
+                                TRUE ~ 0),
+         FTjob      = case_when(TRDPFTPT == 1 ~ 1,
+                                TELFS == 0 ~ 0,
+                                TRUE ~ 0),
+         PTjob      = case_when(TRDPFTPT == 2 ~ 1,
+                                TELFS == 0 ~ 0,
+                                TRUE ~ 0),
+         worktime   = case_when(TEHRUSLT < 0 ~ 0,
+                                TRUE ~ TEHRUSLT),
+         school     = case_when(TESCHENR == 1 ~ 1, 
+                                TRUE ~ 0),
+         weekend    = case_when(TUDIARYDAY == 1 ~ 1,
+                                TUDIARYDAY == 7 ~ 1,
+                                TRUE ~ 0),
+         holiday    = TRHOLIDAY,
+         metro      = case_when(GTMETSTA == 1 ~ 1, 
+                                TRUE ~ 0)) %>% 
+  rename(id         = TUCASEID,
+         weights    = TUFINLWGT)
+  
+```
+
+## Columns removal
+
+```{r}
+timeuse.22 <- timeuse.22 %>% 
+  select(-starts_with('t0')) %>% 
+  select(-starts_with('t1')) %>% 
+  select(-starts_with('t5')) %>% 
+  select(-(TRYHHCHILD:TRTHH))
+timeuse.22$id <- as.character(timeuse.22$id)
+```
+
+## Travel Companion
+
+```{r}
+timeuse.22 <- left_join(timeuse.22, atusppl.22, by="id")
+timeuse.22[is.na(timeuse.22)] <- 0
+
+timeuse.22 <- left_join(timeuse.22, hhinc, by="id")
+```
+
+
+## Availability 
+
+
+```{r}
+# timeuse.22 <- timeuse.22 %>%
+#   mutate(av_act_personal       = case_when(act_personal       == 0 ~ 0, TRUE ~ 1),
+#          av_act_care_household = case_when(act_care_household == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_care_hhmember  = case_when(act_care_hhmember  == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_care_nonhhmbr  = case_when(act_care_nonhhmbr  == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_care_groceries = case_when(act_care_groceries == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_care_ppservice = case_when(act_care_ppservice == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_care_hhservice = case_when(act_care_hhservice == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_care_admin     = case_when(act_care_admin == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_work           = case_when(act_work    == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_school         = case_when(act_school  == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_shopping       = case_when(act_shopping== 0 ~ 0, TRUE ~ 1) ,
+#          av_act_leisure        = case_when(act_leisure == 0 ~ 0, TRUE ~ 1) ,
+#          av_act_community      = case_when(act_community== 0 ~ 0, TRUE ~ 1) ,
+#          av_act_other          = case_when(act_other   == 0 ~ 0, TRUE ~ 1) ,
+#          av_act                = case_when(act == 0 ~ 0, TRUE ~ 1),
+#          
+#          av_trv_personal       = case_when(trv_personal       == 0 ~ 0, TRUE ~ 1),
+#          av_trv_care_household = case_when(trv_care_household == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_care_hhmember  = case_when(trv_care_hhmember  == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_care_nonhhmbr  = case_when(trv_care_nonhhmbr  == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_care_groceries = case_when(trv_care_groceries == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_care_ppservice = case_when(trv_care_ppservice == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_care_hhservice = case_when(trv_care_hhservice == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_care_admin     = case_when(trv_care_admin == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_work           = case_when(trv_work    == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_school         = case_when(trv_school  == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_shopping       = case_when(trv_shopping== 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_leisure        = case_when(trv_leisure == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_community      = case_when(trv_community== 0 ~ 0, TRUE ~ 1) ,
+#          av_trv_other          = case_when(trv_other   == 0 ~ 0, TRUE ~ 1) ,
+#          av_trv                = case_when(trv == 0 ~ 0, TRUE ~ 1))
+
+```
+
+
+## Exporting data set for MDCEV model
+
+```{r}
+write.csv(timeuse.22,"C:/Users/Benny Panjaitan/Documents/MS TTP UC Davis/6_WINTER_24/TTP 289A Adv Choice Modeling/timeuse/atus2022_mdcev_detail.csv", row.names = FALSE)
+```
+
+
+# Database for Fractional MNL model
+
+```{r}
+timeuse.22fr <- timeuse.22
+
+act <- grep("^act", names(timeuse.22fr), value=TRUE)
+trv <- grep("^trv", names(timeuse.22fr), value=TRUE)
+timeuse.22fr[,act] <- timeuse.22fr[,act]/1440
+timeuse.22fr[,trv] <- timeuse.22fr[,trv]/1440
+rm(act)
+rm(trv)
+
+timeuse.22fr <- timeuse.22fr %>%
+  mutate(budget = act + trv)
+
+```
+
+## Exporting data set for FMNL model
+
+```{r}
+write.csv(timeuse.22fr,"C:/Users/Benny Panjaitan/Documents/MS TTP UC Davis/6_WINTER_24/TTP 289A Adv Choice Modeling/timeuse/atus2022_fmnl.csv", row.names = FALSE)
+
+rm(timeuse.22fr)
+```
+
