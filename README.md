@@ -18,7 +18,7 @@ This new data set is used for three MDCEV modeling.
 1. **"MDCEV_0_constant.R"**
 
   This model only features constant of the alternatives with no attributes and socio-demographics. 
-  The alternatives are the generalized categories of trip purposes: work trips, school trips, care trips, and leisure trips. 
+  The alternatives are the generalized categories of trip purposes: work trips, care trips, and leisure trips. 
 
 2. **"MDCEV_1_general.R"**
 
